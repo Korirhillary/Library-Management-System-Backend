@@ -12,6 +12,8 @@ class User (db.Model):
     created_at = db.Column(db.DateTime(), nullable=False)
 
 
+
+
 class Book (db.Model):
     __tablename__ = "books"
     id = db.Column(db.Integer,primary_key= True)
@@ -23,6 +25,7 @@ class Book (db.Model):
     status =db.Colum(db.text ,nullable = False)
     Due_date =db.Column(db.date ,nullable =False)
 
+
 class Publisher (db.Model):
     __tablename__ ="publishers"  
     id = db.Column(db.interger, primary_key = True)
@@ -32,21 +35,28 @@ class Publisher (db.Model):
 class Reports (db.Model):
     __tablename__ ="reports"
     id = db.Column(db.interger ,primary_key = True)
-    user_id = db.Column(db.interger ,nullable = False)
-    Book_id =db.Column(db.interger ,nullable = False)
+    user_id = db.Column(db.interger ,  db.ForeignKey("users.id") , nullable = False )
+    Book_id =db.Column(db.interger , db.ForeignKey("books.id"), nullable = False)
     status = db. Column(db.varchar ,nullable = False)
     issued_at = db.Column(db.timestamp , nullable = False)
     returned_at = db.Column(db.timestamp ,nullable = False)
 
+    user = db.relationship("User",back_populate ="reports") 
+    book = db.relationship("Book",back_populate ="reports") 
+
 class Inquiries (db.Model):
      __tablename__ ="inquiries"   
      id = db.Column(db.interger,Primary_key = True)
-     user_id =db.Column(db.interger,nullable = False)
+     user_id =db.Column(db.interger, db.ForeignKey("users.id"), nullable = False)
      message = db.Column(db.varchar,nullable =False)
+
+     user = db.relationship("User",back_populate ="inquiries") 
 
 
 class Response (db.Model):
     __tablename__ ="responses"
     id =db.Column(db.interger ,primary_key =True)
-    user_id = db.Colum(db.interger ,nullable =False)
+    user_id = db.Colum(db.interger , db.ForeignKey("users.id") , nullable =False)
     feedback =db.Column(db.interger  ,nullable =False)
+
+    user = db.relationship("User",back_populate ="responses") 
