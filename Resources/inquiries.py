@@ -40,6 +40,7 @@ class InquiryResource(Resource):
 
         try:
             db.session.add(inquiry)
+            
             db.session.commit()
             return {'message':'successfully sent your inquiry'},201
         except Exception as e:
