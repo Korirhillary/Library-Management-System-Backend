@@ -11,11 +11,15 @@ inquiry_fields ={
 
 
 
-parser = reqparse.RequestParser()
-parser.add_argument("message" , required = True , help ="message is required") 
+
 
 
 class InquiryResource(Resource):
+
+    parser = reqparse.RequestParser()
+    parser.add_argument("message" , required = True , help ="message is required") 
+
+
     @marshal_with(inquiry_fields)
     def get(self ,inquiries_id):
         inquiry = Inquiry.query.get(inquiries_id)
@@ -42,9 +46,9 @@ class InquiryResource(Resource):
                     print(f"An error occurred: {e}")
                     return {"message":"User already sent an inquiry with this user_id"},400
 
-    @jwt_required()
-    def delete(self,id):
-        inquiry = Inquiry.query.filter_by(id = id).first()
+    
+    def delete(self,inquiries_id):
+        inquiry = Inquiry.query.get(inquiries_id)
         if inquiry:
             try:
                 db.session.delete(inquiry)
