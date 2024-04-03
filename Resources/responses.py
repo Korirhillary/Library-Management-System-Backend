@@ -12,7 +12,7 @@ response_fields = {
 
 class ResponseResource(Resource):
     parser = reqparse.RequestParser()
-    parser.add_argument('feedback', required=False)
+    parser.add_argument('feedback', required=True ,help ="feedback is required")
    
     
     @marshal_with(response_fields)
@@ -22,9 +22,9 @@ class ResponseResource(Resource):
             response = Response.query.filter_by(id = id).first()
             return response
         else:
-            response = Response.query.all()
+            responses = Response.query.all()
 
-            return 
+            return  responses
         
 
     @jwt_required()
@@ -42,7 +42,7 @@ class ResponseResource(Resource):
           return {'message':'successfully added your response'},201
       except Exception as e: 
                 print(f"An error occurred: {e}")
-                return {"message":"User already has a response with this user_id"},400
+                return {"message":"Response not sent"},400
 
       
  
@@ -79,4 +79,3 @@ class ResponseResource(Resource):
                 return {"message":"Response unable to be deleted"}
         else:
             return {"message":"Response not found"}
-
