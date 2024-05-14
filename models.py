@@ -59,11 +59,11 @@ class Book (db.Model):
 class Request(db.Model):
     __tablename__ = "requests"
     id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
-    book_id = db.Column(db.Integer, db.ForeignKey('books.id'), nullable=False)
-    request_date =db.Column(db.String, nullable =False)
-    return_date = db.Column(db.String, nullable =False)
-    status =db.Column(db.String ,nullable = False, default='pending')
+    user_username = db.Column(db.String, db.ForeignKey("users.username") , nullable = False )
+    book_title = db.Column(db.String,  db.ForeignKey("books.title") , nullable = False ) 
+    request_date = db.Column(db.String, nullable=False)
+    return_date = db.Column(db.String, nullable=False)
+    status = db.Column(db.String, nullable=False, default='pending')
     user = db.relationship("User", back_populates="requests")
     book = db.relationship("Book", back_populates="requests")
 
