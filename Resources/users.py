@@ -51,9 +51,9 @@ class UserRegister(Resource):
     def post(self):
         data =UserRegister.parser.parse_args()
         data['password']= bcrypt.generate_password_hash(data['password'],rounds=10).decode('utf-8')
-        # roles =["member", "admin"]
-        # if data['role'] not in roles :
-        #     abort(400, error="Invalid role")
+        roles =["member", "admin"]
+        if data['role'] not in roles :
+            abort(400, error="Invalid role")
         user = User(**data)
         email = User.query.filter_by(email=data['email']).first()
 

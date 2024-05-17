@@ -69,6 +69,31 @@ class getBook(Resource):
             }for book in all_books]
             return books_data ,201
         
+class UpdateBook(Resource):
+    parser = reqparse.RequestParser()
+    parser.add_argument("title")
+    parser.add_argument("image_url")
+    parser.add_argument("Author")
+    parser.add_argument("Description")
+    parser.add_argument("Category")
+    parser.add_argument("status")
+    parser.add_argument("Due_date")
+
+    @marshal_with(response_field)
+    def patch(self, book_id):
+        book = Book.query.get(book_id)
+        if not book:
+            return {"message": "Book not found", "status": "fail"}, 404
+
+        data = UpdateBook.parser.parse_args()
+        for key, value in data.items():
+            if value is not None:
+                setattr(book, key, value)
+
+        db.session.commit()
+        return {"message": "Book updated successfully", "status": "success", "book": book}
+
+        
 class deleteBook(Resource):
     def delete(self,book_id):
         book = Book.query.get(book_id)
