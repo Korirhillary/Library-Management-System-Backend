@@ -9,6 +9,7 @@ book_fields = {
     "Description":fields.String,
     "Category": fields.String,
     "status" : fields.String,
+    "initialCount": fields.Integer,
     "Due_date": fields.String
 }
 
@@ -26,6 +27,7 @@ class createBook(Resource):
     parser.add_argument("Description" , required = True , help = "Description is required")
     parser.add_argument("Category" , required = True , help = "Category is required")
     parser.add_argument("status" , required = True , help = "status is required")  
+    parser.add_argument("initialCount" , required = True , help = "initialCount is required")
     parser.add_argument("Due_date" , required = True , help = "Due_date is required")
 
     @marshal_with(response_field)
@@ -50,6 +52,7 @@ class getBook(Resource):
                     "Description":book.Description,
                     "Category":book.Category,
                     "status":book.status,
+                    "initialCount":book.initialCount,
                     "Due_date":book.Due_date
                 } 
                 return book_data ,201
@@ -65,6 +68,7 @@ class getBook(Resource):
                     "Description":book.Description,
                     "Category":book.Category,
                     "status":book.status,
+                    "initialCount":book.initialCount,
                     "Due_date":book.Due_date
             }for book in all_books]
             return books_data ,201
@@ -77,6 +81,7 @@ class UpdateBook(Resource):
     parser.add_argument("Description")
     parser.add_argument("Category")
     parser.add_argument("status")
+    parser.add_argument("initialCount")
     parser.add_argument("Due_date")
 
     @marshal_with(response_field)
