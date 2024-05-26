@@ -50,8 +50,6 @@ api.add_resource(ReportsResource, "/reports", "/reports/<int:id>")
 api.add_resource(PublisherResource , '/publishers', '/publishers/<int:id>')
 api.add_resource(RequestResource, '/requests', '/requests/<int:request_id>')
 api.add_resource(ContactUsResource, '/contacts', '/contact_us/<int:contacts_id>')
-# api.add_resource(Borrow, "/request")
-# api.add_resource(send_borrow_request_email, "/request")
 
 
 if __name__ == "__main__":
