@@ -2,6 +2,7 @@ from flask_sqlalchemy import  SQLAlchemy
 from flask_bcrypt import Bcrypt
 from datetime import datetime
 import logging
+from sqlalchemy import Enum
 
 db =SQLAlchemy()
 
@@ -11,10 +12,10 @@ bcrypt = Bcrypt()
 class User (db.Model):
     __tablename__="users"
     id= db.Column(db.Integer, primary_key=True)
-    username=db.Column(db.String  )
+    username=db.Column(db.String, unique=True  )
     email=db.Column(db.String )
     password=db.Column(db.String )
-    role =db.Column(db.Enum('admin','member'),  default='member')
+    role = db.Column(Enum('admin', 'member', name='roles'), default='member')
     created_at = db.Column(db.DateTime() )
 
     reports = db.relationship("Report", back_populates="user")
@@ -45,7 +46,7 @@ class User (db.Model):
 class Book (db.Model):
     __tablename__ = "books"
     id = db.Column(db.Integer,primary_key= True)
-    title = db.Column(db.String , nullable = False)
+    title = db.Column(db.String , nullable = False , unique=True)
     image_url= db.Column(db.String ,nullable = False)
     Author = db.Column(db.String ,nullable = False)
     Description =db.Column(db.String ,nullable = False)

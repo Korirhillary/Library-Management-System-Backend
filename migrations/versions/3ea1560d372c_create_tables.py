@@ -1,8 +1,8 @@
 """create tables
 
-Revision ID: fd700ea47dc6
+Revision ID: 3ea1560d372c
 Revises: 
-Create Date: 2024-05-16 10:24:53.132028
+Create Date: 2024-05-27 14:47:13.250382
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = 'fd700ea47dc6'
+revision = '3ea1560d372c'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -27,14 +27,16 @@ def upgrade():
     sa.Column('Category', sa.String(), nullable=False),
     sa.Column('status', sa.String(), nullable=False),
     sa.Column('Due_date', sa.String(), nullable=False),
-    sa.PrimaryKeyConstraint('id')
+    sa.Column('initialCount', sa.Integer(), nullable=True),
+    sa.PrimaryKeyConstraint('id'),
+    sa.UniqueConstraint('title')
     )
     op.create_table('contact_us',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('name', sa.String(), nullable=False),
     sa.Column('email', sa.String(), nullable=False),
     sa.Column('message', sa.String(), nullable=False),
-    sa.Column('created_at', sa.TIMESTAMP(), server_default=sa.text('(CURRENT_TIMESTAMP)'), nullable=True),
+    sa.Column('created_at', sa.TIMESTAMP(), server_default=sa.text('now()'), nullable=True),
     sa.PrimaryKeyConstraint('id')
     )
     op.create_table('publishers',
@@ -48,9 +50,10 @@ def upgrade():
     sa.Column('username', sa.String(), nullable=True),
     sa.Column('email', sa.String(), nullable=True),
     sa.Column('password', sa.String(), nullable=True),
-    sa.Column('role', sa.Enum('admin', 'member'), nullable=True),
+    sa.Column('role', sa.Enum('admin', 'member', name='roles'), nullable=True),
     sa.Column('created_at', sa.DateTime(), nullable=True),
-    sa.PrimaryKeyConstraint('id')
+    sa.PrimaryKeyConstraint('id'),
+    sa.UniqueConstraint('username')
     )
     op.create_table('inquiries',
     sa.Column('id', sa.Integer(), nullable=False),
@@ -65,8 +68,8 @@ def upgrade():
     sa.Column('user_id', sa.Integer(), nullable=False),
     sa.Column('Book_id', sa.Integer(), nullable=False),
     sa.Column('status', sa.String(), server_default='pending', nullable=False),
-    sa.Column('issued_at', sa.TIMESTAMP(), server_default=sa.text('(CURRENT_TIMESTAMP)'), nullable=True),
-    sa.Column('returned_at', sa.TIMESTAMP(), server_default=sa.text('(CURRENT_TIMESTAMP)'), nullable=True),
+    sa.Column('issued_at', sa.TIMESTAMP(), server_default=sa.text('now()'), nullable=True),
+    sa.Column('returned_at', sa.TIMESTAMP(), server_default=sa.text('now()'), nullable=True),
     sa.ForeignKeyConstraint(['Book_id'], ['books.id'], ),
     sa.ForeignKeyConstraint(['user_id'], ['users.id'], ),
     sa.PrimaryKeyConstraint('id')

@@ -37,6 +37,7 @@ class UserRegister(Resource):
     parser.add_argument('username', required=True, help="username is required")
     parser.add_argument('email', required=True, help=" email is required")
     parser.add_argument('password', required=True, help=" password is required")
+    parser.add_argument('role', required=True, help="role is required")
 
 
 
@@ -65,8 +66,8 @@ class UserRegister(Resource):
         user_password = data['password']
         data['password']= bcrypt.generate_password_hash(data['password'],rounds=10).decode('utf-8')
         roles =["member", "admin"]
-        if data['role'] not in roles :
-            abort(400, error="Invalid role")
+        # if data['role'] not in roles :
+        #     abort(400, error="Invalid role")
         user = User(**data)
         email = User.query.filter_by(email=data['email']).first()
 
