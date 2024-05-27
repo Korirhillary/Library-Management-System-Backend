@@ -37,7 +37,6 @@ class UserRegister(Resource):
     parser.add_argument('username', required=True, help="username is required")
     parser.add_argument('email', required=True, help=" email is required")
     parser.add_argument('password', required=True, help=" password is required")
-    parser.add_argument('role', required=True, help="role is required")
 
 
 

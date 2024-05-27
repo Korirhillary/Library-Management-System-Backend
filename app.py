@@ -12,18 +12,19 @@ from Resources.books import createBook , getBook, UpdateBook, deleteBook
 from Resources.requests import RequestResource
 from Resources.contacts import ContactUsResource
 import os
+from dotenv import load_dotenv
 
 
 app = Flask(__name__)
+load_dotenv()
 
-
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get['DATABASE_URI']
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-app.config["JWT_SECRET_KEY"] = "super-secret"
+app.config["JWT_SECRET_KEY"] =  os.environ.get['JWT_SECRET_KEY']
 app.config['MAIL_SERVER']='smtp.gmail.com'
 app.config['MAIL_PORT'] = 465
-app.config['MAIL_USERNAME'] = 'korir6373@gmail.com'
-app.config['MAIL_PASSWORD'] = 'jwvhzbfcwpgdvigx'
+app.config['MAIL_USERNAME'] =  os.environ.get['MAIL_USERNAME']
+app.config['MAIL_PASSWORD'] =  os.environ.get['MAIL_PASSWORD']
 app.config['MAIL_USE_TLS'] = False
 app.config['MAIL_USE_SSL'] = True
 
@@ -53,4 +54,4 @@ api.add_resource(ContactUsResource, '/contacts', '/contact_us/<int:contacts_id>'
 
 
 if __name__ == "__main__":
-    app.run(debug=True , port=5000)
+    app.run(debug=False , port=5000)
